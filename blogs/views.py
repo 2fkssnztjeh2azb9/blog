@@ -8,9 +8,12 @@ from .forms import BlogPostForm
 # Create your views here.
 
 def index(request):
+    return render(request, 'blogs/index.html', {})
+
+def list_all(request):
     posts = BlogPost.objects.order_by('-date_added')    
     context = {"posts": posts}
-    return render(request, 'blogs/index.html', context)
+    return render(request, 'blogs/list_all.html', context)
 
 def check_user(request, post):
     if post.owner != request.user:
@@ -53,6 +56,16 @@ def my_posts(request):
     posts = BlogPost.objects.filter(owner=request.user).order_by('-date_added')    
     context = {"posts": posts}
     return render(request, 'blogs/my_posts.html', context)
+
+@login_required
+def delete(request, post_id):
+    post = BlogPost.objects.get(id=post_id)
+    check_user(request, post)
+    if request.method == "POST":
+        post.delete()
+        return redirect('blogs:index')
+    context = {'post': post}
+    return render(request, 'blogs/delete_post.html', context)
 
 def post(request, post_id):
     post = BlogPost.objects.get(id=post_id)

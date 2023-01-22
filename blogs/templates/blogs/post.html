@@ -4,6 +4,7 @@
   <h2>{{ post.title }}
     {% if post.owner == user %}
       <small><a href="{% url 'blogs:edit_post' post.id %}">edit</a></small>
+      <small><a href="{% url 'blogs:delete' post.id %}">delete</a></small>
     {% endif %}
   </h2>
   <small>{{ post.date_added|date:'Y-m-d H:i' }}</small>

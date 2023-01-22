@@ -2,7 +2,7 @@
     <div class="card mb-3">
         <div class="card-header">
             <h4>
-                {{ post.title }}
+                <a href="{% url 'blogs:post' post.id %}">{{ post.title }}</a>
                 {% if post.owner == user %}
                     <small><a href="{% url 'blogs:edit_post' post.id %}">edit</a></small>
                 {% endif %}
